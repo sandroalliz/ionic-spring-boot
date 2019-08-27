@@ -3,6 +3,10 @@ package com.sandro.cursojava.resources;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.sandro.cursojava.services.CategoryService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -12,19 +16,15 @@ import com.sandro.cursojava.domain.Category;
 @RestController
 @RequestMapping(value="/categories")
 public class CategoryResource {
+
+	@Autowired
+	CategoryService categoryService;
 	
-	@RequestMapping(method=RequestMethod.GET)
-	public List<Category> list() {
+	@RequestMapping(value = "/{id}", method=RequestMethod.GET)
+	public ResponseEntity<?> get(@PathVariable Integer id) {
+		Category category = categoryService.get(id);
 		
-		Category category = new Category(1, "Informática");
-		Category category2 = new Category(2, "Escritório");
-		
-		List<Category> categories = new ArrayList();
-		
-		categories.add(category);
-		categories.add(category2);
-		
-		return categories;
+		return ResponseEntity.ok(category);
 	}
 
 }
