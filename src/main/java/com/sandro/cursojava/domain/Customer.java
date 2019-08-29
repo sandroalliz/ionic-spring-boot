@@ -1,5 +1,6 @@
 package com.sandro.cursojava.domain;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.sandro.cursojava.domain.enums.TipoCliente;
 
 import javax.persistence.*;
@@ -19,6 +20,7 @@ public class Customer implements Serializable {
     private String cpfOrCpnj;
     private Integer tipo;
 
+    @JsonManagedReference
     @OneToMany(mappedBy = "customer")
     private List<Address> addresses = new ArrayList<>();
 
