@@ -2,6 +2,7 @@ package com.sandro.cursojava.services;
 
 import com.sandro.cursojava.domain.Category;
 import com.sandro.cursojava.repository.CategoryRepository;
+import com.sandro.cursojava.services.exceptions.ObjectNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -15,6 +16,7 @@ public class CategoryService {
 
     public Category get(Integer id){
         Optional<Category> category = categoryRepository.findById(id);
-        return category.orElse(null);
+        return category.orElseThrow(() -> new ObjectNotFoundException(
+                "Objeto não encontrato! Id: " + id + ", Tipo: " + Category.class.getName()));
     }
 }
