@@ -1,18 +1,14 @@
 package com.sandro.cursojava;
 
-import com.sandro.cursojava.domain.Category;
-import com.sandro.cursojava.domain.City;
-import com.sandro.cursojava.domain.Product;
-import com.sandro.cursojava.domain.State;
-import com.sandro.cursojava.repository.CategoryRepository;
-import com.sandro.cursojava.repository.CityRepository;
-import com.sandro.cursojava.repository.ProductRepository;
-import com.sandro.cursojava.repository.StateRepository;
+import com.sandro.cursojava.domain.*;
+import com.sandro.cursojava.domain.enums.TipoCliente;
+import com.sandro.cursojava.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
+import java.lang.reflect.Array;
 import java.util.Arrays;
 
 @SpringBootApplication
@@ -29,6 +25,12 @@ public class CursojavaApplication implements CommandLineRunner {
 
 	@Autowired
 	StateRepository stateRepository;
+
+	@Autowired
+	CustomerRepository customerRepository;
+
+	@Autowired
+	AddressRepository addressRepository;
 
 	public static void main(String[] args) {
 		SpringApplication.run(CursojavaApplication.class, args);
@@ -68,5 +70,19 @@ public class CursojavaApplication implements CommandLineRunner {
 
 		stateRepository.saveAll(Arrays.asList(state, state2));
 		cityRepository.saveAll(Arrays.asList(city, city2, city3));
+
+		//
+
+		Customer customer = new Customer(null, "Maria Silva", "maria@gmail.com", "36378912377", TipoCliente.PESSOA_FISICA);
+
+		customer.getPhones().addAll(Arrays.asList("26283135", "26283136"));
+
+		Address address = new Address(null, "Rua Flores", "303", "Apto 203", "Jardim", "38220832", customer, city);
+		Address address2 = new Address(null, "Avenida Matos", "105", "Sala 800", "Centro", "38777012", customer, city2);
+
+		customer.getAddresses().addAll(Arrays.asList(address, address2));
+
+		customerRepository.saveAll(Arrays.asList(customer));
+		addressRepository.saveAll(Arrays.asList(address, address2));
 	}
 }
