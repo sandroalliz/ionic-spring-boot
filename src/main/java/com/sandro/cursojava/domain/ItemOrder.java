@@ -1,5 +1,6 @@
 package com.sandro.cursojava.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.aspectj.weaver.ast.Or;
 
 import javax.persistence.EmbeddedId;
@@ -12,6 +13,7 @@ public class ItemOrder implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
+    @JsonIgnore
     @EmbeddedId
     private ItemOrderPK id = new ItemOrderPK();
 
@@ -31,6 +33,7 @@ public class ItemOrder implements Serializable {
         this.price = price;
     }
 
+    @JsonIgnore
     public Order getOrder(){
         return id.getOrder();
     }

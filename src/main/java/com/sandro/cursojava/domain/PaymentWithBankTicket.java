@@ -1,5 +1,6 @@
 package com.sandro.cursojava.domain;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.sandro.cursojava.domain.enums.StatusPayment;
 
 import javax.persistence.Entity;
@@ -10,7 +11,9 @@ public class PaymentWithBankTicket extends Payment{
 
     private static final long serialVersionUID = 1L;
 
+    @JsonFormat(pattern = "dd/MM/yyyy")
     private Date dueDate;
+    @JsonFormat(pattern = "dd/MM/yyyy")
     private Date paymentDate;
 
     public PaymentWithBankTicket(){
