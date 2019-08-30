@@ -1,6 +1,6 @@
 package com.sandro.cursojava.domain.enums;
 
-public enum  TipoCliente {
+public enum  CustomerType {
 
     PESSOA_FISICA(1, "Pessoa Física"),
     PESSOA_JURIDICA(2, "Pessoa Jurídica");
@@ -8,7 +8,7 @@ public enum  TipoCliente {
     private int code;
     private String description;
 
-    private TipoCliente(int code, String description){
+    private CustomerType(int code, String description){
         this.code = code;
         this.description = description;
     }
@@ -21,12 +21,12 @@ public enum  TipoCliente {
         return this.description;
     }
 
-    public static TipoCliente toEnum(Integer code){
+    public static CustomerType toEnum(Integer code){
         if(code == null){
             return null;
         }
 
-        for(TipoCliente x : TipoCliente.values()){
+        for(CustomerType x : CustomerType.values()){
             if(code.equals(x.getCode())){
                 return x;
             }

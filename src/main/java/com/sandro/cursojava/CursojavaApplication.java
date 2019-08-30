@@ -1,7 +1,8 @@
 package com.sandro.cursojava;
 
 import com.sandro.cursojava.domain.*;
-import com.sandro.cursojava.domain.enums.TipoCliente;
+import com.sandro.cursojava.domain.enums.CustomerType;
+import com.sandro.cursojava.domain.enums.StatusPayment;
 import com.sandro.cursojava.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
@@ -9,6 +10,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 import java.lang.reflect.Array;
+import java.text.SimpleDateFormat;
 import java.util.Arrays;
 
 @SpringBootApplication
@@ -31,6 +33,12 @@ public class CursojavaApplication implements CommandLineRunner {
 
 	@Autowired
 	AddressRepository addressRepository;
+
+	@Autowired
+	OrderRepository orderRepository;
+
+	@Autowired
+	PaymentRepository paymentRepository;
 
 	public static void main(String[] args) {
 		SpringApplication.run(CursojavaApplication.class, args);
@@ -71,9 +79,9 @@ public class CursojavaApplication implements CommandLineRunner {
 		stateRepository.saveAll(Arrays.asList(state, state2));
 		cityRepository.saveAll(Arrays.asList(city, city2, city3));
 
-		//
+		//CUSTOMER AND ADDRESSES
 
-		Customer customer = new Customer(null, "Maria Silva", "maria@gmail.com", "36378912377", TipoCliente.PESSOA_FISICA);
+		Customer customer = new Customer(null, "Maria Silva", "maria@gmail.com", "36378912377", CustomerType.PESSOA_FISICA);
 
 		customer.getPhones().addAll(Arrays.asList("26283135", "26283136"));
 
@@ -84,5 +92,23 @@ public class CursojavaApplication implements CommandLineRunner {
 
 		customerRepository.saveAll(Arrays.asList(customer));
 		addressRepository.saveAll(Arrays.asList(address, address2));
+
+		//ORDERS
+
+		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+
+		Order order = new Order(null, sdf.parse("30/09/2017 10:32"), customer, address);
+		Order order2 = new Order(null, sdf.parse("10/10/2017 19:35"), customer, address2);
+
+		Payment payment = new PaymentWithCard(null, StatusPayment.QUITADO, order, 6);
+		order.setPayment(payment);
+
+		Payment payment2 = new PaymentWithBankTicket(null, StatusPayment.PENDENTE, order2, sdf.parse("20/10/2017 00:00"), null);
+		order2.setPayment(payment2);
+
+		customer.getOrders().addAll(Arrays.asList(order, order2));
+
+		orderRepository.saveAll(Arrays.asList(order, order2));
+		paymentRepository.saveAll(Arrays.asList(payment, payment2));
 	}
 }

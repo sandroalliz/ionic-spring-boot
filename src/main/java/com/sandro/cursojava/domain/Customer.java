@@ -1,14 +1,14 @@
 package com.sandro.cursojava.domain;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
-import com.sandro.cursojava.domain.enums.TipoCliente;
+import com.sandro.cursojava.domain.enums.CustomerType;
 
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.*;
 
 @Entity
-public class Customer implements Serializable {
+public class  Customer implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -18,7 +18,7 @@ public class Customer implements Serializable {
     private String name;
     private String email;
     private String cpfOrCpnj;
-    private Integer tipo;
+    private Integer type;
 
     @JsonManagedReference
     @OneToMany(mappedBy = "customer")
@@ -28,16 +28,19 @@ public class Customer implements Serializable {
     @CollectionTable(name = "PHONE")
     private Set<String> phones = new HashSet<>();
 
+    @OneToMany(mappedBy = "customer")
+    private List<Order> orders = new ArrayList<>();
+
     public Customer(){
 
     }
 
-    public Customer(Integer id, String name, String email, String cpfOrCpnj, TipoCliente tipo) {
+    public Customer(Integer id, String name, String email, String cpfOrCpnj, CustomerType tipo) {
         this.id = id;
         this.name = name;
         this.email = email;
         this.cpfOrCpnj = cpfOrCpnj;
-        this.tipo = tipo.getCode();
+        this.type = tipo.getCode();
     }
 
     public Integer getId() {
@@ -72,12 +75,12 @@ public class Customer implements Serializable {
         this.cpfOrCpnj = cpfOrCpnj;
     }
 
-    public TipoCliente getTipo() {
-        return TipoCliente.toEnum(this.tipo);
+    public CustomerType getType() {
+        return CustomerType.toEnum(this.type);
     }
 
-    public void setTipo(TipoCliente tipo) {
-        this.tipo = tipo.getCode();
+    public void setType(CustomerType type) {
+        this.type = type.getCode();
     }
 
     public List<Address> getAddresses() {
@@ -94,6 +97,14 @@ public class Customer implements Serializable {
 
     public void setPhones(Set<String> phones) {
         this.phones = phones;
+    }
+
+    public List<Order> getOrders() {
+        return orders;
+    }
+
+    public void setOrders(List<Order> orders) {
+        this.orders = orders;
     }
 
     @Override
