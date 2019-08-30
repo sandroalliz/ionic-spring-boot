@@ -2,8 +2,7 @@ package com.sandro.cursojava.domain;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.util.Date;
-import java.util.Objects;
+import java.util.*;
 
 @Entity
 @Table(name = "ORDER_TABLE")
@@ -26,6 +25,9 @@ public class Order implements Serializable {
     @ManyToOne
     @JoinColumn(name = "address_id")
     private Address address;
+
+    @OneToMany(mappedBy = "id.order")
+    private Set<ItemOrder> items = new HashSet<>();
 
     public Order(){
 
@@ -76,6 +78,14 @@ public class Order implements Serializable {
 
     public void setAddress(Address address) {
         this.address = address;
+    }
+
+    public Set<ItemOrder> getItems() {
+        return items;
+    }
+
+    public void setItems(Set<ItemOrder> items) {
+        this.items = items;
     }
 
     @Override
