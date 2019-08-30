@@ -1,6 +1,7 @@
 package com.sandro.cursojava.domain;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.sandro.cursojava.domain.enums.CustomerType;
 
@@ -21,7 +22,6 @@ public class  Customer implements Serializable {
     private String cpfOrCpnj;
     private Integer type;
 
-    @JsonManagedReference
     @OneToMany(mappedBy = "customer")
     private List<Address> addresses = new ArrayList<>();
 
@@ -29,7 +29,7 @@ public class  Customer implements Serializable {
     @CollectionTable(name = "PHONE")
     private Set<String> phones = new HashSet<>();
 
-    @JsonBackReference
+    @JsonIgnore
     @OneToMany(mappedBy = "customer")
     private List<Order> orders = new ArrayList<>();
 
