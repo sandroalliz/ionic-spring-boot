@@ -19,7 +19,7 @@ public class CustomerResource {
 	CustomerService customerService;
 	
 	@RequestMapping(value = "/{id}", method=RequestMethod.GET)
-	public ResponseEntity<?> get(@PathVariable Integer id) {
+	public ResponseEntity<Customer> get(@PathVariable Integer id) {
 		Customer customer = customerService.get(id);
 		return ResponseEntity.ok(customer);
 	}

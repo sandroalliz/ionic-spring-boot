@@ -19,7 +19,7 @@ public class OrderResource {
 	OrderService orderService;
 	
 	@RequestMapping(value = "/{id}", method=RequestMethod.GET)
-	public ResponseEntity<?> get(@PathVariable Integer id) {
+	public ResponseEntity<Order> get(@PathVariable Integer id) {
 		Order order = orderService.get(id);
 		return ResponseEntity.ok(order);
 	}
