@@ -3,7 +3,9 @@ package com.sandro.cursojava.resources;
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
+import com.sandro.cursojava.dto.CategoryDTO;
 import com.sandro.cursojava.services.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -44,6 +46,13 @@ public class CategoryResource {
 	public ResponseEntity<Void> delete(@PathVariable Integer id) {
 		categoryService.delete(id);
 		return ResponseEntity.noContent().build();
+	}
+
+	@RequestMapping(method=RequestMethod.GET)
+	public ResponseEntity<List<CategoryDTO>> list() {
+		List<Category> domains = categoryService.list();
+		List<CategoryDTO> categories = domains.stream().map(category -> new CategoryDTO(category)).collect(Collectors.toList());
+		return ResponseEntity.ok(categories);
 	}
 
 }
