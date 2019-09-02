@@ -51,6 +51,12 @@ public class CursojavaApplication implements CommandLineRunner {
 	public void run(String... args) throws Exception {
 		Category category = new Category(null, "Informática");
 		Category category2 = new Category(null, "Escritório");
+		Category category3 = new Category(null, "Cama mesa e banho");
+		Category category4 = new Category(null, "Eletrônicos");
+		Category category5 = new Category(null, "Jardinagem");
+		Category category6 = new Category(null, "Decoração");
+		Category category7 = new Category(null, "Perfumaria");
+
 
 		Product product = new Product(null, "Computador", 2000.00);
 		Product product2 = new Product(null,"Impressora", 800.00);
@@ -63,7 +69,7 @@ public class CursojavaApplication implements CommandLineRunner {
 		product2.getCategories().addAll((Arrays.asList(category, category2)));
 		product3.getCategories().addAll((Arrays.asList(category)));
 
-		categoryRepository.saveAll(Arrays.asList(category, category2));
+		categoryRepository.saveAll(Arrays.asList(category, category2, category3, category4, category5, category6, category7));
 		productRepository.saveAll(Arrays.asList(product, product2, product3));
 
 
