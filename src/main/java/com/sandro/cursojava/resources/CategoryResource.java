@@ -15,6 +15,8 @@ import org.springframework.web.bind.annotation.*;
 import com.sandro.cursojava.domain.Category;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import javax.validation.Valid;
+
 @RestController
 @RequestMapping(value="/categories")
 public class CategoryResource {
@@ -29,15 +31,17 @@ public class CategoryResource {
 	}
 
 	@RequestMapping(method = RequestMethod.POST)
-	public ResponseEntity<Void> insert(@RequestBody Category category){
-		category = categoryService.insert(category);
+	public ResponseEntity<Void> insert(@Valid @RequestBody CategoryDTO dto){
+		Category domain = categoryService.fromDTO(dto);
+		domain = categoryService.insert(domain);
 		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().
-				path("/{id}").buildAndExpand(category.getId()).toUri();
+				path("/{id}").buildAndExpand(domain.getId()).toUri();
 
 		return ResponseEntity.created(uri).build();
 	}
 	@RequestMapping(value = "/{id}", method = RequestMethod.PUT)
-	public ResponseEntity<Void> update(@PathVariable Integer id, @RequestBody Category category){
+	public ResponseEntity<Void> update(@PathVariable Integer id, @Valid @RequestBody CategoryDTO dto){
+		Category category = categoryService.fromDTO(dto);
 		category.setId(id);
 		category = categoryService.update(category);
 		return ResponseEntity.noContent().build();

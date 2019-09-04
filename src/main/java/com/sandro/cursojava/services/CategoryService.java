@@ -1,6 +1,7 @@
 package com.sandro.cursojava.services;
 
 import com.sandro.cursojava.domain.Category;
+import com.sandro.cursojava.dto.CategoryDTO;
 import com.sandro.cursojava.repository.CategoryRepository;
 import com.sandro.cursojava.services.exceptions.DataIntegrityException;
 import com.sandro.cursojava.services.exceptions.ObjectNotFoundException;
@@ -52,5 +53,9 @@ public class CategoryService {
     public Page<Category> findPage(Integer page, Integer linesPerPage, String orderBy, String direction) {
         PageRequest pageRequest = PageRequest.of(page, linesPerPage, Direction.valueOf(direction), orderBy);
         return categoryRepository.findAll(pageRequest);
+    }
+
+    public Category fromDTO(CategoryDTO dto){
+        return new Category(dto.getId(), dto.getName());
     }
 }
