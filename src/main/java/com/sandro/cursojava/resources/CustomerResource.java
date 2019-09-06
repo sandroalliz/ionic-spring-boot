@@ -1,16 +1,17 @@
 package com.sandro.cursojava.resources;
 
-import com.sandro.cursojava.domain.Category;
 import com.sandro.cursojava.domain.Customer;
 import com.sandro.cursojava.dto.CustomerDTO;
-import com.sandro.cursojava.services.CategoryService;
+import com.sandro.cursojava.dto.CustomerNewDTO;
 import com.sandro.cursojava.services.CustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import javax.validation.Valid;
+import java.net.URI;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -57,5 +58,15 @@ public class CustomerResource {
 		Page<CustomerDTO> customers = domains.map(obj -> new CustomerDTO(obj));
 
 		return ResponseEntity.ok(customers);
+	}
+
+	@RequestMapping(method = RequestMethod.POST)
+	public ResponseEntity<Void> insert(@Valid @RequestBody CustomerNewDTO dto){
+		Customer domain = customerService.fromDTO(dto);
+		domain = customerService.insert(domain);
+		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().
+				path("/{id}").buildAndExpand(domain.getId()).toUri();
+
+		return ResponseEntity.created(uri).build();
 	}
 }
