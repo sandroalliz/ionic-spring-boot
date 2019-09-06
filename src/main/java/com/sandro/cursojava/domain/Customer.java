@@ -42,7 +42,7 @@ public class  Customer implements Serializable {
         this.name = name;
         this.email = email;
         this.cpfOrCpnj = cpfOrCpnj;
-        this.type = tipo.getCode();
+        this.type = tipo == null ? null : tipo.getCode();
     }
 
     public Integer getId() {

@@ -1,5 +1,7 @@
 package com.sandro.cursojava.domain.enums;
 
+import antlr.StringUtils;
+
 public enum  CustomerType {
 
     PESSOA_FISICA(1, "Pessoa Física"),
@@ -33,5 +35,19 @@ public enum  CustomerType {
         }
 
         throw new IllegalArgumentException("Id inválido: " + code);
+    }
+
+    public static CustomerType toEnumByDescription(String description){
+        if(description == null || description == ""){
+            return null;
+        }
+
+        for(CustomerType x : CustomerType.values()){
+            if(description.equals(x.getDescription())){
+                return x;
+            }
+        }
+
+        throw new IllegalArgumentException("Descrição inválido: " + description);
     }
 }

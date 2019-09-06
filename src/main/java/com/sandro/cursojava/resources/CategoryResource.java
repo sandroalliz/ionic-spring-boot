@@ -39,6 +39,7 @@ public class CategoryResource {
 
 		return ResponseEntity.created(uri).build();
 	}
+
 	@RequestMapping(value = "/{id}", method = RequestMethod.PUT)
 	public ResponseEntity<Void> update(@PathVariable Integer id, @Valid @RequestBody CategoryDTO dto){
 		Category category = categoryService.fromDTO(dto);
