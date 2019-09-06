@@ -1,27 +1,43 @@
 package com.sandro.cursojava.dto;
 
 import com.sandro.cursojava.domain.Customer;
+import com.sandro.cursojava.services.validation.CustomerInsert;
 import org.hibernate.validator.constraints.Length;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
 import java.io.Serializable;
 
+@CustomerInsert
 public class CustomerNewDTO implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
+    @NotEmpty(message = "O nome é obrigatório")
+    @Length(min = 5, max = 80, message = "O tamanho deve ser entre 5 e 80 caracteres")
     private String name;
+
+    @NotEmpty(message = "O email é obrigatório")
+    @Email(message = "Email inválido")
     private String email;
+
+    @NotEmpty(message = "O CPF ou CNPJ é obrigatório")
     private String cpfOrCpnj;
     private Integer type;
 
+    @NotEmpty(message = "O logradouro é obrigatório")
     private String street;
+
+    @NotEmpty(message = "O número é obrigatório")
     private String number;
+
     private String complement;
     private String neighborhood;
+
+    @NotEmpty(message = "O CEP é obrigatório")
     private String zipCode;
 
+    @NotEmpty(message = "O Telefone é obrigatório")
     private String phone1;
     private String phone2;
     private String phone3;
