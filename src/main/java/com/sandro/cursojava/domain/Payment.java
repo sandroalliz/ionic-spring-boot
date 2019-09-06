@@ -25,13 +25,13 @@ public abstract class Payment implements Serializable {
     @MapsId
     private Order order;
 
-    public Payment(){
+    public Payment() {
 
     }
 
     public Payment(Integer id, StatusPayment status, Order order) {
         this.id = id;
-        this.status = status.getCode();
+        this.status = status != null ? status.getCode() : null;
         this.order = order;
     }
 
