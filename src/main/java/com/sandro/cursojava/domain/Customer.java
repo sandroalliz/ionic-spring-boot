@@ -18,6 +18,8 @@ public class  Customer implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     private String name;
+
+    @Column(unique = true)
     private String email;
     private String cpfOrCpnj;
     private Integer type;

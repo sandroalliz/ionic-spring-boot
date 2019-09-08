@@ -1,9 +1,12 @@
 package com.sandro.cursojava.services.validation;
 
+import com.sandro.cursojava.domain.Customer;
 import com.sandro.cursojava.domain.enums.CustomerType;
 import com.sandro.cursojava.dto.CustomerNewDTO;
+import com.sandro.cursojava.repository.CustomerRepository;
 import com.sandro.cursojava.resources.exception.FieldMessage;
 import com.sandro.cursojava.services.validation.utils.BR;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -11,6 +14,9 @@ import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 
 public class CustomerInsertValidator implements ConstraintValidator<CustomerInsert, CustomerNewDTO> {
+
+    @Autowired
+    CustomerRepository customerRepository;
 
     @Override
     public void initialize(CustomerInsert ann) {
@@ -26,6 +32,12 @@ public class CustomerInsertValidator implements ConstraintValidator<CustomerInse
 
         if(objDto.getType().equals(CustomerType.PESSOA_JURIDICA.getCode()) && !BR.isValidCnpj(objDto.getCpfOrCpnj())){
             list.add(new FieldMessage("cpfOrCpnj", "CNPJ inválido"));
+        }
+
+
+        Customer customer = customerRepository.findByEmail(objDto.getEmail());
+        if(customer != null){
+            list.add(new FieldMessage("email", "Email já existente"));
         }
 
         // inclua os testes aqui, inserindo erros na lista

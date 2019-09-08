@@ -1,6 +1,5 @@
 package com.sandro.cursojava.dto;
 
-import com.sandro.cursojava.domain.Customer;
 import com.sandro.cursojava.services.validation.CustomerInsert;
 import org.hibernate.validator.constraints.Length;
 
