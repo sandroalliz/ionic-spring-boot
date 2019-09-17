@@ -61,16 +61,39 @@ public class CursojavaApplication implements CommandLineRunner {
 		Product product = new Product(null, "Computador", 2000.00);
 		Product product2 = new Product(null,"Impressora", 800.00);
 		Product product3 = new Product(null,"Mouse", 80.00);
+		Product product4 = new Product(null,"Mesa de escritório", 300.00);
+		Product product5 = new Product(null,"Toalha", 50.00);
+		Product product6 = new Product(null,"Colcha", 200.00);
+		Product product7 = new Product(null,"TV true color", 1200.00);
+		Product product8 = new Product(null,"Roçadeira", 800.00);
+		Product product9 = new Product(null,"Abajour", 100.00);
+		Product product10 = new Product(null,"Pendente", 180.00);
+		Product product11 = new Product(null,"Shampoo", 90.00);
 
 		category.getProducts().addAll(Arrays.asList(product, product2, product3));
-		category2.getProducts().addAll(Arrays.asList(product2));
+		category2.getProducts().addAll(Arrays.asList(product2, product4));
+		category3.getProducts().addAll(Arrays.asList(product5, product6));
+		category4.getProducts().addAll(Arrays.asList(product, product2, product3, product7));
+		category5.getProducts().addAll(Arrays.asList(product8));
+		category6.getProducts().addAll(Arrays.asList(product9, product10));
+		category7.getProducts().addAll(Arrays.asList(product11));
 
-		product.getCategories().addAll((Arrays.asList(category)));
-		product2.getCategories().addAll((Arrays.asList(category, category2)));
-		product3.getCategories().addAll((Arrays.asList(category)));
+		product.getCategories().addAll((Arrays.asList(category, category4)));
+		product2.getCategories().addAll((Arrays.asList(category, category2, category4)));
+		product3.getCategories().addAll((Arrays.asList(category, category4)));
+		product4.getCategories().addAll((Arrays.asList(category2)));
+		product5.getCategories().addAll((Arrays.asList(category3)));
+		product6.getCategories().addAll((Arrays.asList(category3)));
+		product7.getCategories().addAll((Arrays.asList(category5)));
+		product8.getCategories().addAll((Arrays.asList(category5)));
+		product9.getCategories().addAll((Arrays.asList(category6)));
+		product10.getCategories().addAll((Arrays.asList(category6)));
+		product11.getCategories().addAll((Arrays.asList(category7)));
+
+
 
 		categoryRepository.saveAll(Arrays.asList(category, category2, category3, category4, category5, category6, category7));
-		productRepository.saveAll(Arrays.asList(product, product2, product3));
+		productRepository.saveAll(Arrays.asList(product, product2, product3, product4, product5, product6, product7, product8, product9, product10, product11));
 
 
 		//STATES AND CITIES
