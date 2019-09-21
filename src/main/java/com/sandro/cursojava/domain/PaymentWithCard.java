@@ -1,10 +1,12 @@
 package com.sandro.cursojava.domain;
 
+import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.sandro.cursojava.domain.enums.StatusPayment;
 
 import javax.persistence.Entity;
 
 @Entity
+@JsonTypeName("pagamentoComCartao")
 public class PaymentWithCard extends Payment{
 
     private static final long serialVersionUID = 1L;
