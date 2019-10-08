@@ -1,6 +1,8 @@
 package com.sandro.cursojava.config;
 
 import com.sandro.cursojava.services.DBService;
+import com.sandro.cursojava.services.EmailService;
+import com.sandro.cursojava.services.SmtpMailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -29,4 +31,8 @@ public class DevConfig {
         return true;
     }
 
+    @Bean
+    public EmailService emailService(){
+        return new SmtpMailService();
+    }
 }

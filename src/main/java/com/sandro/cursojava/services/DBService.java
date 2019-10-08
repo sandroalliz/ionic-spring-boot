@@ -106,7 +106,7 @@ public class DBService {
 
         //CUSTOMER AND ADDRESSES
 
-        Customer customer = new Customer(null, "Maria Silva", "maria@gmail.com", "36378912377", CustomerType.PESSOA_FISICA);
+        Customer customer = new Customer(null, "Maria Silva", "sandroalliz@gmail.com", "36378912377", CustomerType.PESSOA_FISICA);
 
         customer.getPhones().addAll(Arrays.asList("26283135", "26283136"));
 
