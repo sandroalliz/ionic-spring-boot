@@ -2,6 +2,7 @@ package com.sandro.cursojava.services;
 
 import com.sandro.cursojava.domain.*;
 import com.sandro.cursojava.domain.enums.CustomerType;
+import com.sandro.cursojava.domain.enums.Profile;
 import com.sandro.cursojava.domain.enums.StatusPayment;
 import com.sandro.cursojava.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -113,14 +114,21 @@ public class DBService {
         Customer customer = new Customer(null, "Maria Silva", "sandroalliz@gmail.com", "36378912377", CustomerType.PESSOA_FISICA, be.encode("123"));
 
         customer.getPhones().addAll(Arrays.asList("26283135", "26283136"));
+        
+        Customer customer2 = new Customer(null, "Ana Costa", "sandroalliz@hotmail.com", "77688570034", CustomerType.PESSOA_FISICA, be.encode("123"));
+        customer2.addProfile(Profile.ADMIN);
+        
+        customer2.getPhones().addAll(Arrays.asList("26283135", "26283136"));
 
         Address address = new Address(null, "Rua Flores", "303", "Apto 203", "Jardim", "38220832", customer, city);
         Address address2 = new Address(null, "Avenida Matos", "105", "Sala 800", "Centro", "38777012", customer, city2);
+        Address address3 = new Address(null, "Avenida Floriano", "2106", null, "Centro", "0463737", customer2, city2);
 
         customer.getAddresses().addAll(Arrays.asList(address, address2));
+        customer2.getAddresses().addAll(Arrays.asList(address3));
 
-        customerRepository.saveAll(Arrays.asList(customer));
-        addressRepository.saveAll(Arrays.asList(address, address2));
+        customerRepository.saveAll(Arrays.asList(customer, customer2));
+        addressRepository.saveAll(Arrays.asList(address, address2, address3));
 
         //ORDERS
 
