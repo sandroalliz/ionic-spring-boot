@@ -23,6 +23,8 @@ public class  Customer implements Serializable {
     private String email;
     private String cpfOrCpnj;
     private Integer type;
+    
+    private String password;
 
     @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL)
     private List<Address> addresses = new ArrayList<>();
@@ -39,12 +41,13 @@ public class  Customer implements Serializable {
 
     }
 
-    public Customer(Integer id, String name, String email, String cpfOrCpnj, CustomerType tipo) {
+    public Customer(Integer id, String name, String email, String cpfOrCpnj, CustomerType tipo, String password) {
         this.id = id;
         this.name = name;
         this.email = email;
         this.cpfOrCpnj = cpfOrCpnj;
         this.type = tipo == null ? null : tipo.getCode();
+        this.password = password;
     }
 
     public Integer getId() {
@@ -110,8 +113,17 @@ public class  Customer implements Serializable {
     public void setOrders(List<Order> orders) {
         this.orders = orders;
     }
+    
+    @JsonIgnore
+    public String getPassword() {
+		return password;
+	}
 
-    @Override
+	public void setPassword(String password) {
+		this.password = password;
+	}
+
+	@Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;

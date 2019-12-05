@@ -5,6 +5,7 @@ import com.sandro.cursojava.domain.enums.CustomerType;
 import com.sandro.cursojava.domain.enums.StatusPayment;
 import com.sandro.cursojava.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.text.ParseException;
@@ -13,6 +14,9 @@ import java.util.Arrays;
 
 @Service
 public class DBService {
+	
+	@Autowired
+	private BCryptPasswordEncoder be;
 
     @Autowired
     CategoryRepository categoryRepository;
@@ -106,7 +110,7 @@ public class DBService {
 
         //CUSTOMER AND ADDRESSES
 
-        Customer customer = new Customer(null, "Maria Silva", "sandroalliz@gmail.com", "36378912377", CustomerType.PESSOA_FISICA);
+        Customer customer = new Customer(null, "Maria Silva", "sandroalliz@gmail.com", "36378912377", CustomerType.PESSOA_FISICA, be.encode("123"));
 
         customer.getPhones().addAll(Arrays.asList("26283135", "26283136"));
 

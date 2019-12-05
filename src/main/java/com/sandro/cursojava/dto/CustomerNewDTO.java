@@ -23,6 +23,9 @@ public class CustomerNewDTO implements Serializable {
     @NotEmpty(message = "O CPF ou CNPJ é obrigatório")
     private String cpfOrCpnj;
     private Integer type;
+    
+    @NotEmpty(message = "O CPF ou CNPJ é obrigatório")
+    private String password;
 
     @NotEmpty(message = "O logradouro é obrigatório")
     private String street;
@@ -150,4 +153,12 @@ public class CustomerNewDTO implements Serializable {
     public void setCidadeId(Integer cidadeId) {
         this.cidadeId = cidadeId;
     }
+
+	public String getPassword() {
+		return password;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
+	}
 }
