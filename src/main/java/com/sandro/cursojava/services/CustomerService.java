@@ -1,19 +1,9 @@
 package com.sandro.cursojava.services;
 
-import com.sandro.cursojava.domain.Address;
-import com.sandro.cursojava.domain.Category;
-import com.sandro.cursojava.domain.City;
-import com.sandro.cursojava.domain.Customer;
-import com.sandro.cursojava.domain.enums.CustomerType;
-import com.sandro.cursojava.dto.CategoryDTO;
-import com.sandro.cursojava.dto.CustomerDTO;
-import com.sandro.cursojava.dto.CustomerNewDTO;
-import com.sandro.cursojava.repository.AddressRepository;
-import com.sandro.cursojava.repository.CategoryRepository;
-import com.sandro.cursojava.repository.CityRepository;
-import com.sandro.cursojava.repository.CustomerRepository;
-import com.sandro.cursojava.services.exceptions.DataIntegrityException;
-import com.sandro.cursojava.services.exceptions.ObjectNotFoundException;
+import java.util.List;
+import java.util.Objects;
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
@@ -22,8 +12,20 @@ import org.springframework.data.domain.Sort;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-import java.util.Optional;
+import com.sandro.cursojava.domain.Address;
+import com.sandro.cursojava.domain.City;
+import com.sandro.cursojava.domain.Customer;
+import com.sandro.cursojava.domain.enums.CustomerType;
+import com.sandro.cursojava.domain.enums.Profile;
+import com.sandro.cursojava.dto.CustomerDTO;
+import com.sandro.cursojava.dto.CustomerNewDTO;
+import com.sandro.cursojava.repository.AddressRepository;
+import com.sandro.cursojava.repository.CityRepository;
+import com.sandro.cursojava.repository.CustomerRepository;
+import com.sandro.cursojava.security.UserSS;
+import com.sandro.cursojava.services.exceptions.AuthorizationException;
+import com.sandro.cursojava.services.exceptions.DataIntegrityException;
+import com.sandro.cursojava.services.exceptions.ObjectNotFoundException;
 
 @Service
 public class CustomerService {
@@ -41,6 +43,11 @@ public class CustomerService {
     private AddressRepository addressRepository;
 
     public Customer get(Integer id) {
+    	UserSS user = UserService.authenticated();
+    	
+    	if(Objects.isNull(user) || !user.hasRole(Profile.ADMIN) && !id.equals(user.getId())) {
+    		throw new AuthorizationException("Acesso negado");
+    	}
         Optional<Customer> customer = customerRepository.findById(id);
         return customer.orElseThrow(() -> new ObjectNotFoundException(
                 "Objeto não encontrato! Id: " + id + ", Tipo: " + Customer.class.getName()));
