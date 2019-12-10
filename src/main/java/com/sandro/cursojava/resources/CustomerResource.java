@@ -28,6 +28,12 @@ public class CustomerResource {
 		Customer customer = customerService.get(id);
 		return ResponseEntity.ok(customer);
 	}
+	
+	@RequestMapping(value = "/email", method=RequestMethod.GET)
+	public ResponseEntity<Customer> getByEmail(@RequestParam(value="value") String email) {
+		Customer customer = customerService.findByEmail(email);
+		return ResponseEntity.ok(customer);
+	}
 
 	@RequestMapping(value = "/{id}", method = RequestMethod.PUT)
 	public ResponseEntity<Void> update(@PathVariable Integer id, @Valid @RequestBody CustomerDTO dto){
