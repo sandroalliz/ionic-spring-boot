@@ -1,18 +1,27 @@
 package com.sandro.cursojava.services;
 
+import java.util.Date;
+import java.util.Objects;
+import java.util.Optional;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort.Direction;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
 import com.sandro.cursojava.domain.Customer;
 import com.sandro.cursojava.domain.ItemOrder;
 import com.sandro.cursojava.domain.Order;
 import com.sandro.cursojava.domain.PaymentWithBankTicket;
 import com.sandro.cursojava.domain.enums.StatusPayment;
-import com.sandro.cursojava.repository.*;
+import com.sandro.cursojava.repository.ItemOrderRepository;
+import com.sandro.cursojava.repository.OrderRepository;
+import com.sandro.cursojava.repository.PaymentRepository;
+import com.sandro.cursojava.security.UserSS;
+import com.sandro.cursojava.services.exceptions.AuthorizationException;
 import com.sandro.cursojava.services.exceptions.ObjectNotFoundException;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
-import java.util.Date;
-import java.util.Optional;
 
 @Service
 public class OrderService {
@@ -67,5 +76,16 @@ public class OrderService {
         itemOrderRepository.saveAll(order.getItems());
         emailService.sendOrderConfirmationEmail(order);
         return order;
+    }
+    
+    public Page<Order> findPage(Integer page, Integer linesPerPage, String orderBy, String direction) {
+    	UserSS user = UserService.authenticated();
+    	
+    	if(Objects.isNull(user)) {
+    		throw new AuthorizationException("Acesso negado");
+    	}
+    	PageRequest pageRequest = PageRequest.of(page, linesPerPage, Direction.valueOf(direction), orderBy);
+    	Customer customer = customerService.get(user.getId());
+    	return orderRepository.findByCustomer(customer, pageRequest);
     }
 }
